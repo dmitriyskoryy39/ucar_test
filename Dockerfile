@@ -33,3 +33,7 @@ WORKDIR /app
 COPY src ./src
 COPY main.py .
 COPY .env .
+
+RUN mkdir docker-entrypoint-initdb.d
+ADD init.sql /docker-entrypoint-initdb.d/
+RUN chmod +x /docker-entrypoint-initdb.d/init.sql

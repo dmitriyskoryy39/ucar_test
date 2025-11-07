@@ -7,6 +7,7 @@ services:
     user: ${POSTGRES_USER}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - LC_ALL=C.UTF-8
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
