@@ -1,3 +1,4 @@
+
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -10,9 +11,11 @@ settings = config.get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print('start app')
-    yield
-    print("stop app")
+    try:
+        print('start app')
+        yield
+    finally:
+        print("stop app")
 
 
 app = FastAPI(lifespan=lifespan)
