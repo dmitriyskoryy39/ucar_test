@@ -1,7 +1,6 @@
 import logging
 from fastapi import APIRouter, Query, Body, Path, Depends, HTTPException
 
-
 from .models import IncidentRespModel, StatusModel, IncidentBaseModel
 from .repository import IncidentRepo
 
