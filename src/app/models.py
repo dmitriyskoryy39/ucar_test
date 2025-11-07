@@ -1,24 +1,33 @@
 
 from datetime import datetime
 from pydantic import BaseModel, Field
+from fastapi import Query
 from enum import Enum
 
 
-class IncidentStatus(Enum):
-    ACTIVE = "active"
-    PROCESSING = "processing"
-    COMPLETED = "completed"
+class IncidentStatus(str, Enum):
+    active = "active"
+    processing = "processing"
+    completed = "completed"
 
 
-class Sources(Enum):
-    OPERATOR = "operator"
-    MONITORING = "monitoring"
-    PARTNER = "partner"
+class Sources(str, Enum):
+    operator = "operator"
+    monitoring = "monitoring"
+    partner = "partner"
 
 
-class IncidentModel(BaseModel):
-    id: int = Field(description="Идентификатор инцидента")
+class StatusModel(BaseModel):
+    status: IncidentStatus = Field(Query(description="Статус инцидента"))
+
+
+class IncidentBaseModel(BaseModel):
     description: str = Field(description="Описание инцидента")
     status: IncidentStatus = Field(description="Статус инцидента")
     source: Sources = Field(description="Источники инцидентов")
     create_dt: datetime = Field(description="Дата и время создания инцидента", default=datetime.now())
+
+
+class IncidentRespModel(IncidentBaseModel):
+    id: int = Field(description="Идентификатор инцидента")
+
