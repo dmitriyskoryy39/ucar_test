@@ -20,7 +20,6 @@ async def lifespan(app: FastAPI):
         await connect_db.disconnect()
         print("stop app")
 
-
 app = FastAPI(lifespan=lifespan)
 app.include_router(endpoints.router)
 
