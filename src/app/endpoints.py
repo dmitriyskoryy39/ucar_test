@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, Query, Body, Path, Depends
+from fastapi import APIRouter, Query, Body, Path, Depends, HTTPException
 
 
 from .models import IncidentRespModel, StatusModel, IncidentBaseModel
@@ -23,7 +23,7 @@ async def get_incident(
         return incidents
     except Exception as e:
         logger.error(e)
-        raise
+        raise HTTPException(status_code=400, detail="Не удалось получить список инцидентов")
 
 
 @router.post(
@@ -41,6 +41,7 @@ async def get_incident(
         return incident
     except Exception as e:
         logger.error(e)
+        raise HTTPException(status_code=400, detail="Не удалось создать инцидент")
 
 
 @router.patch(
@@ -59,3 +60,4 @@ async def get_incident(
         return incident
     except Exception as e:
         logger.error(e)
+        raise HTTPException(status_code=400, detail="Не удалось изменить статус инцидента")
