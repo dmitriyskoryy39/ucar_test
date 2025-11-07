@@ -20,15 +20,15 @@ services:
     env_file:
       - ./.env
 
-  app:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8007:8007"
-    expose:
-      - "8007"
-    command: bash -c "python main.py"
+      - ${LOCAL_PORT}:${LOCAL_PORT}
+    command: uvicorn main:app --host ${LOCAL_HOST} --port ${LOCAL_PORT} --workers 1
+    depends_on:
+      - ucar-db
     networks:
       - ucar_net
 
