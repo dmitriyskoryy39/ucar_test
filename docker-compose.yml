@@ -1,0 +1,40 @@
+services:
+  ucar-db:
+    image: postgres:16-alpine
+    hostname: ucar-db
+    container_name: ucar-db
+    shm_size: 1g
+    user: ${POSTGRES_USER}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - LC_ALL=C.UTF-8
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5433:5432
+    networks:
+      - ucar_net
+    env_file:
+      - ./.env
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8007:8007"
+    expose:
+      - "8007"
+    command: bash -c "python main.py"
+    networks:
+      - ucar_net
+
+volumes:
+  postgres_data:
+
+networks:
+  ucar_net:
+    driver: bridge
